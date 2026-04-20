@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Quản lý OEM 3D</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary-color: #4e73df; --secondary-color: #858796; }
+        body { background: #f4f7fc; font-family: 'Inter', sans-serif; }
+        .sidebar-brand { font-weight: 800; color: var(--primary-color); letter-spacing: 1px; }
+        .card { border: none; border-radius: 12px; box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1); }
+        .stat-card { border-left: 4px solid var(--primary-color); transition: transform 0.2s; }
+        .stat-card:hover { transform: translateY(-5px); }
+        .table thead { background: #f8f9fc; color: #4e73df; font-size: 0.85rem; text-transform: uppercase; }
+        .btn-add { border-radius: 20px; padding: 10px 25px; font-weight: 600; }
+        .img-preview { width: 50px; height: 50px; object-fit: cover; border-radius: 8px; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-white mb-4 shadow-sm py-3">
+        <div class="container">
+            <a class="navbar-brand sidebar-brand" href="#"><i class="fas fa-cube me-2"></i>OEM 3D ADMIN</a>
+            <div class="ms-auto">
+                <a href="index.html" class="btn btn-sm btn-outline-secondary me-2"><i class="fas fa-home me-1"></i> Client</a>
+                <a href="orders.html" class="btn btn-sm btn-primary"><i class="fas fa-shopping-cart me-1"></i> Đơn hàng</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card stat-card p-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Tổng Linh Kiện</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="total-parts">0</div>
+                        </div>
+                        <div class="fa-2x text-gray-300"><i class="fas fa-boxes"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card stat-card p-3 border-left-warning" style="border-left-color: #f6c23e;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Đơn Hàng Mới</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="total-orders">0</div>
+                        </div>
+                        <div class="fa-2x text-gray-300"><i class="fas fa-clipboard-list text-warning"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <div class="card">
+                    <div class="card-header bg-white py-3">
+                        <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-plus-circle me-2"></i>Thêm Mới</h6>
+                    </div>
+                    <div class="card-body">
+                        <form id="add-part-form">
+                            <div class="mb-3">
+                                <label class="form-label small">Tên linh kiện</label>
+                                <input type="text" id="name" class="form-control" placeholder="VD: Bánh răng trục X" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label small">Vật liệu</label>
+                                <select id="material" class="form-select">
+                                    <option value="PLA">PLA</option>
+                                    <option value="TPU">TPU</option>
+                                    <option value="PETG">PETG</option>
+                                    <option value="PLA Silk">PLA Silk</option>
+                                </select>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <label class="form-label small">Giá (VNĐ)</label>
+                                    <input type="number" id="price" class="form-control" required>
+                                </div>
+                                <div class="col">
+                                    <label class="form-label small">Thời gian (Phút)</label>
+                                    <input type="number" id="printTime" class="form-control">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label small">URL Hình ảnh</label>
+                                <input type="text" id="imageUrl" class="form-control" placeholder="https://...">
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100 btn-add shadow">Lưu Dữ Liệu</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="card shadow mb-4">
+                    <div class="card-header bg-white py-3">
+                        <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-table me-2"></i>Kho Linh Kiện</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table align-middle" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Ảnh</th>
+                                        <th>Thông tin</th>
+                                        <th>Giá</th>
+                                        <th class="text-center">Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-part-list"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5000/api/parts';
+        const ORDER_URL = 'http://localhost:5000/api/orders';
+
+        async function loadData() {
+            try {
+                // Tải linh kiện
+                const res = await fetch(API_URL);
+                const parts = await res.json();
+                document.getElementById('total-parts').innerText = parts.length;
+                
+                const tbody = document.getElementById('admin-part-list');
+                tbody.innerHTML = parts.map(p => `
+                    <tr>
+                        <td><img src="${p.imageUrl || 'https://via.placeholder.com/150'}" class="img-preview shadow-sm"></td>
+                        <td>
+                            <div class="fw-bold">${p.name}</div>
+                            <small class="text-muted"><i class="fas fa-layer-group me-1"></i>${p.material} | <i class="fas fa-clock me-1"></i>${p.printTime}m</small>
+                        </td>
+                        <td class="text-primary fw-bold">${p.price.toLocaleString()}đ</td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-outline-danger" onclick="deletePart('${p._id}')"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `).join('');
+
+                // Tải đơn hàng để đếm
+                const resOrders = await fetch(ORDER_URL);
+                const orders = await resOrders.json();
+                document.getElementById('total-orders').innerText = orders.length;
+
+            } catch (err) { console.error("Lỗi:", err); }
+        }
+
+        document.getElementById('add-part-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const newPart = {
+                name: document.getElementById('name').value,
+                material: document.getElementById('material').value,
+                price: document.getElementById('price').value,
+                printTime: document.getElementById('printTime').value,
+                imageUrl: document.getElementById('imageUrl').value || 'https://via.placeholder.com/150'
+            };
+
+            await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newPart)
+            });
+            document.getElementById('add-part-form').reset();
+            loadData();
+        });
+
+        async function deletePart(id) {
+            if (confirm('Bạn có muốn xóa linh kiện này khỏi kho?')) {
+                await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+                loadData();
+            }
+        }
+
+        loadData();
+    </script>
+</body>
+</html>

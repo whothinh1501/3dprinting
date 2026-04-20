@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xác nhận đơn hàng - OEM 3D PARTS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #0a0a0a; /* Nền ngoài gần như đen tuyệt đối */
+            --card-gray: #1a1a1a; /* Màu xám chủ đạo cho card */
+            --input-gray: #252525; /* Xám nhạt hơn cho ô nhập liệu */
+            --accent-blue: #3498db;
+            --text-white: #ffffff;
+            --text-muted: #a0a0a0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
+            padding-top: 100px;
+        }
+
+        .navbar {
+            background-color: rgba(10, 10, 10, 0.9) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #222;
+        }
+        .navbar-brand { font-weight: 800; color: var(--accent-blue) !important; }
+
+
+        .card {
+            background-color: var(--card-gray);
+            border: 1px solid #333;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .card-header {
+            background-color: #222 !important;
+            border-bottom: 1px solid #333;
+            padding: 25px;
+        }
+
+        .product-info-box {
+            background: #222;
+            border: 1px solid #333;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            color: #efefef !important;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-control {
+            background-color: var(--input-gray) !important;
+            border: 1px solid #333 !important;
+            color: #ffffff !important;
+            border-radius: 10px;
+            padding: 12px 15px;
+            transition: 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-blue) !important;
+            background-color: #2a2a2a !important;
+            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.15) !important;
+            color: #ffffff !important;
+        }
+
+        ::placeholder { color: #555 !important; }
+
+        /* Tổng tiền Section */
+        .total-section {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #333;
+        }
+
+        .price-final {
+            color: #ff4757;
+            font-size: 1.4rem;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-confirm {
+            background-color: var(--accent-blue);
+            border: none;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        .btn-confirm:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(52, 152, 219, 0.2);
+        }
+
+        footer { margin-top: 50px; opacity: 0.5; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-cube me-2"></i>OEM 3D PARTS
+            </a>
+            <div class="ms-auto text-white-50 small">
+                <i class="fas fa-lock me-1"></i> Giao dịch bảo mật
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8">
+                <div class="card border-0">
+                    <div class="card-header text-center">
+                        <h5 class="mb-0 text-white fw-bold">XÁC NHẬN ĐƠN HÀNG</h5>
+                    </div>
+                    <div class="card-body p-4 p-md-5">
+                        
+                        <div class="product-info-box">
+                            <small class="text-info d-block mb-1 text-uppercase fw-bold" style="font-size: 0.7rem;">Linh kiện đang chọn</small>
+                            <h6 id="display-part-name" class="text-white mb-0 fw-bold"></h6>
+                        </div>
+
+                        <form id="checkout-form">
+                            <div class="mb-3">
+                                <label class="form-label"><i class="fas fa-user-circle me-2 text-info"></i>Họ tên</label>
+                                <input type="text" id="customerName" class="form-control" placeholder="Tên khách hàng..." required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label"><i class="fas fa-phone-alt me-2 text-info"></i>Số điện thoại</label>
+                                <input type="tel" id="phoneNumber" class="form-control" placeholder="090..." required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label"><i class="fas fa-map-pin me-2 text-info"></i>Địa chỉ nhận hàng</label>
+                                <textarea id="address" class="form-control" rows="2" placeholder="Số nhà, tên đường..." required></textarea>
+                            </div>
+
+                            <div class="mb-3" id="custom-field" style="display: none;">
+                                <label class="form-label text-warning"><i class="fas fa-edit me-2"></i>Ghi chú in (Tên/Màu/Logo)</label>
+                                <textarea id="customNote" class="form-control" style="border-color: #444 !important;" placeholder="Nhập yêu cầu in của Thịnh..."></textarea>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-6">
+                                    <label class="form-label">Số lượng</label>
+                                    <input type="number" id="quantity" class="form-control" value="1" min="1">
+                                </div>
+                                <div class="col-12 mt-4">
+                                    <div class="total-section d-flex justify-content-between align-items-center">
+                                        <span class="text-white small fw-bold">TỔNG CỘNG:</span>
+                                        <span class="price-final fw-bold"><span id="display-price">0</span> VNĐ</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-confirm w-100 shadow">
+                                Gửi đơn hàng ngay
+                            </button>
+                            
+                            <div class="text-center mt-3">
+                                <a href="index.html" class="text-muted text-decoration-none small">
+                                    <i class="fas fa-arrow-left me-1"></i> Quay lại
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center text-muted small">
+        &copy; 2026 Nguyễn Trần Hữu Thịnh - Xưởng in 3D OEM
+    </footer>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const pName = params.get('name') || "Chưa chọn sản phẩm";
+        const pPrice = params.get('price') || 0;
+
+        document.getElementById('display-part-name').innerText = pName;
+        document.getElementById('display-price').innerText = parseInt(pPrice).toLocaleString();
+
+        if (pName.toLowerCase().includes("custom") || pName.toLowerCase().includes("yêu cầu")) {
+            document.getElementById('custom-field').style.display = 'block';
+        }
+
+        document.getElementById('checkout-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const customerName = document.getElementById('customerName').value;
+            const phone = document.getElementById('phoneNumber').value;
+            const address = document.getElementById('address').value;
+            const quantity = document.getElementById('quantity').value;
+            const note = document.getElementById('customNote').value;
+
+            const orderData = {
+                partName: note ? `${pName} (${note})` : pName, 
+                customerName: customerName,
+                phone: phone,
+                address: address,
+                totalPrice: pPrice * quantity
+            };
+
+            try {
+                const res = await fetch('http://localhost:5000/api/orders', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(orderData)
+                });
+                if (res.ok) {
+                    alert("Đặt hàng thành công! Đơn hàng của Thịnh đang được xử lý.");
+                    window.location.href = "index.html";
+                }
+            } catch (err) {
+                alert("Lỗi server rồi Thịnh ơi!");
+            }
+        };
+    </script>
+</body>
+</html>
