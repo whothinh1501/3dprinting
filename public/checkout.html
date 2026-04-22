@@ -114,7 +114,31 @@
             box-shadow: 0 10px 20px rgba(52, 152, 219, 0.2);
         }
 
-        footer { margin-top: 50px; opacity: 0.5; }
+        footer {
+            background-color: #0a0a0a;
+            padding: 50px 0 20px;
+            margin-top: 80px;
+            border-top: 1px solid #333;
+        }
+
+
+        footer .text-muted {
+            color: #b0b0b0 !important;
+        }
+        
+        footer ul li {
+            color: #ffffff !important;
+            margin-bottom: 8px;
+        }
+
+        footer .footer-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        footer .footer-link:hover {
+            color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -194,8 +218,35 @@
         </div>
     </div>
 
-    <footer class="text-center text-muted small">
-        &copy; 2026 Nguyễn Trần Hữu Thịnh - Xưởng in 3D OEM
+    <footer>
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <h5 class="text-white fw-bold mb-3">OEM 3D PARTS</h5>
+                    <p class="small text-muted">Chuyên cung cấp các linh kiện thay thế, phụ kiện custom và giải pháp in 3D FDM chất lượng cao.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="text-white fw-bold mb-3">Liên hệ</h5>
+                    <ul class="list-unstyled small">
+                        <li><i class="fas fa-map-marker-alt me-2 text-primary"></i> Quận Bình Tân, TP. Hồ Chí Minh</li>
+                        <li><i class="fas fa-phone me-2 text-primary"></i> +84 343045938</li>
+                        <li><i class="fas fa-envelope me-2 text-primary"></i> huuthinh494@gmail.com</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="text-white fw-bold mb-3">Theo dõi</h5>
+                    <div class="d-flex gap-3">
+                        <a href="https://www.facebook.com/whothink1501/" class="btn btn-outline-light btn-sm rounded-circle"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.youtube.com/channel/UCD16gff5NGL-BYEFT74G-7g" class="btn btn-outline-light btn-sm rounded-circle"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="btn btn-outline-light btn-sm rounded-circle"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4 border-secondary">
+            <div class="text-center small text-muted">
+                &copy; 2026 Nguyễn Trần Hữu Thịnh - Dự án 2 tuần.
+            </div>
+        </div>
     </footer>
 
     <script>

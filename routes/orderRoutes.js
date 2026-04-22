@@ -17,7 +17,7 @@ router.post('/', async (req, res) => {
         res.status(201).json(newOrder);
     } catch (err) { res.status(400).json({ message: err.message }); }
 });
-// Cập nhật trạng thái đơn hàng (UPDATE)
+// update đơn hàng (UPDATE)
 router.put('/:id', async (req, res) => {
     try {
         const updatedOrder = await Order.findByIdAndUpdate(
@@ -30,7 +30,7 @@ router.put('/:id', async (req, res) => {
         res.status(400).json({ message: err.message });
     }
 });
-// Xóa đơn hàng
+// Xóa đơn hàng dựa trên ID (DELETE)
 router.delete('/:id', async (req, res) => {
     try {
         await Order.findByIdAndDelete(req.params.id);
